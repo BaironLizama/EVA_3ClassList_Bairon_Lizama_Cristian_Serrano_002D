@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/MiEstilo.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/7a6437671c.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/x-icon" href="{% static 'Img/Class.png' %}">
+    <title>Inicio</title>
+    <style>
+        .clock {
+          font-family: 'Old Standard TT', serif;
+          font-size: 8em;
+          text-align: center;
+          margin: 0 auto;
+          color: white;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+          border: 2px solid white;
+        }
+        
+        .date {
+          font-family: 'Old Standard TT', serif;
+          font-size: 3em;
+          text-align: center;
+          margin: 0 auto;
+          color: white;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+          border: 2px solid white;
+        }
+        
+        .clock, .date {
+          color: black;
+          text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+          .clock {
+            font-size: 5em;
+          }
+        
+          .date {
+            font-size: 2.5em;
+          }
+        }
+      </style>
+</head>
+<body>
+ 
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:#0a141d;">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#opciones">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <a href="#" class="navbar-brand">
+            <img src="{% static 'Img/Class.png' %}" width="60px" height="60px">
+        </a>
+    
+        <div class="collapse navbar-collapse" id="opciones">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'registrar' %}">Registrarse</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'crearqr' %}">Generar QR</a>
+                </li>
+                {% endif %}
+
+                
+
+                
+                
+                
+            </ul>
+    
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" style="color: white; text-decoration: none;">
+                        <img src="{% static 'img/salir.png' %}" width="50px">
+                        Cerrar sesión
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="nav-link" style="color: white; text-decoration: none;">
+                        <img src="{% static 'img/acceso.png' %}" width="50px">
+                        Iniciar sesión
+                    </a>
+                    {% endif %}
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item ml-auto">
+                    <a class="nav-link" href="#">Bienvenid@ {{ user.username }}</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+    
+    
+    <br>
+    
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <img src="{% static 'Img/Class.png' %}" style="max-width: 100%; height: auto;">
+        <p style="text-align: center; max-width: 80%;">Bienvenidos a la aplicación móvil ClassList de DuocUC. Esta plataforma ha sido desarrollada para abordar una problemática común en el ámbito educativo: el registro de asistencia en las clases presenciales. En la actualidad, los docentes enfrentan dificultades al registrar la asistencia de los alumnos, lo que puede llevar a errores y falta de eficiencia en el proceso.
+            ClassList ofrece una solución innovadora al permitir a los docentes generar códigos QR de asistencia, que los alumnos pueden escanear utilizando sus dispositivos móviles. Con un sencillo proceso, los alumnos pueden registrar su asistencia de manera rápida y precisa, reduciendo el tiempo dedicado a esta tarea y minimizando errores.
+            La aplicación también aborda los desafíos que surgen en el contexto actual, donde la educación ha tenido que adaptarse a modalidades presenciales y remotas. RegistrAPP busca instar a los alumnos a asistir presencialmente a clases y mejora el proceso de reportes de asistencia.
+        </p>
+    </div>
+    
+    
+
+
+
+<br>
+
+<div class="date" id="date"></div>
+<div class="clock" id="clock"></div>
+<script>
+  function updateClock() {
+    const now = new Date();
+    const date = now.toLocaleDateString();
+    const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    const dateString = `${date}`;
+    const timeString = `${time}`;
+    document.getElementById("date").textContent = dateString;
+    document.getElementById("clock").textContent = timeString;
+  }
+
+  setInterval(updateClock, 1000);
+</script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>   
+
+</body>
+</html>
